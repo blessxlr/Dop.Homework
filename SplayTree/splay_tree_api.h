@@ -191,11 +191,13 @@ private:
         delete node;
     }
     
-    bool validateBST(Node* node, const Key& minKey, const Key& maxKey) const {
-        if (!node) return true;
-        if (minKey && !(minKey->key < node->key)) return false;
-	if (maxKey && !(node->key < maxKey->key)) return false;
-        return validateBST(node->left, minKey, &node->key) && 
-               validateBST(node->right, &node->key, maxKey);
+    bool validateBST(Node* node, const Node* minNode, const Node* maxNode) const {
+    if (!node) return true;
+    
+    if (minNode && !(minNode->key < node->key)) return false;
+    if (maxNode && !(node->key < maxNode->key)) return false;
+    
+    return validateBST(node->left, minNode, node) &&
+           validateBST(node->right, node, maxNode);
     }
 };
